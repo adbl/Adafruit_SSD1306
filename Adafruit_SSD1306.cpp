@@ -235,7 +235,7 @@ void Adafruit_SSD1306::begin(uint8_t vccstate, uint8_t i2caddr) {
     ssd1306_command(SSD1306_SETDISPLAYCLOCKDIV);            // 0xD5
     ssd1306_command(0x80);                                  // the suggested ratio 0x80
     ssd1306_command(SSD1306_SETMULTIPLEX);                  // 0xA8
-    ssd1306_command(0x3F); // 0x2f
+    ssd1306_command(0x2F); // was 0x3F
     ssd1306_command(SSD1306_SETDISPLAYOFFSET);              // 0xD3
     ssd1306_command(0x0);                                   // no offset
     ssd1306_command(SSD1306_SETSTARTLINE | 0x0);            // line #0
