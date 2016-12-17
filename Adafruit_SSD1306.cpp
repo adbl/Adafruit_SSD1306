@@ -170,6 +170,7 @@ void Adafruit_SSD1306::begin(uint8_t vccstate, uint8_t i2caddr) {
   else
   {
     // I2C Init
+    Wire.setSpeed(CLOCK_SPEED_400KHZ);
     Wire.begin();
   }
 
