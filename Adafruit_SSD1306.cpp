@@ -184,7 +184,7 @@ void Adafruit_SSD1306::begin(uint8_t vccstate, uint8_t i2caddr) {
   // wait 10ms
   delay(10);
   // bring out of reset
-  digitalWrite(rst, INPUT_PULLUP);
+  pinMode(rst, INPUT_PULLUP);
   // turn on VCC (9V?)
 
    #if defined SSD1306_128_32
@@ -193,7 +193,7 @@ void Adafruit_SSD1306::begin(uint8_t vccstate, uint8_t i2caddr) {
     ssd1306_command(SSD1306_SETDISPLAYCLOCKDIV);            // 0xD5
     ssd1306_command(0x80);                                  // the suggested ratio 0x80
     ssd1306_command(SSD1306_SETMULTIPLEX);                  // 0xA8
-    ssd1306_command(0x2F); // 0x1F
+    ssd1306_command(0x2F); // TODO was 0x1F
     ssd1306_command(SSD1306_SETDISPLAYOFFSET);              // 0xD3
     ssd1306_command(0x0);                                   // no offset
     ssd1306_command(SSD1306_SETSTARTLINE | 0x0);            // line #0
@@ -215,7 +215,7 @@ void Adafruit_SSD1306::begin(uint8_t vccstate, uint8_t i2caddr) {
     ssd1306_command(SSD1306_COMSCANDEC);
     ssd1306_command(SSD1306_SETCOMPINS);                    // 0xDA
 
-    ssd1306_command(0x02); // TODO was 0x12
+    ssd1306_command(0x12); // TODO was 0x02
     ssd1306_command(SSD1306_SETCONTRAST);                   // 0x81
     ssd1306_command(0x8F);
     ssd1306_command(SSD1306_SETPRECHARGE);                  // 0xd9
@@ -235,7 +235,7 @@ void Adafruit_SSD1306::begin(uint8_t vccstate, uint8_t i2caddr) {
     ssd1306_command(SSD1306_SETDISPLAYCLOCKDIV);            // 0xD5
     ssd1306_command(0x80);                                  // the suggested ratio 0x80
     ssd1306_command(SSD1306_SETMULTIPLEX);                  // 0xA8
-    ssd1306_command(0x3F);
+    ssd1306_command(0x3F); // 0x2f
     ssd1306_command(SSD1306_SETDISPLAYOFFSET);              // 0xD3
     ssd1306_command(0x0);                                   // no offset
     ssd1306_command(SSD1306_SETSTARTLINE | 0x0);            // line #0
@@ -244,17 +244,22 @@ void Adafruit_SSD1306::begin(uint8_t vccstate, uint8_t i2caddr) {
       { ssd1306_command(0x10); }
     else 
       { ssd1306_command(0x14); }
-    ssd1306_command(SSD1306_MEMORYMODE);                    // 0x20
-    ssd1306_command(0x00);                                  // 0x0 act like ks0108
+
+    //ssd1306_command(SSD1306_MEMORYMODE);                    // 0x20
+    //ssd1306_command(0x00);                                  // 0x0 act like ks0108
+
+    ssd1306_command(SSD1306_NORMALDISPLAY);                 // 0xA6
+    ssd1306_command(SSD1306_DISPLAYALLON_RESUME);           // 0xA4
+
     ssd1306_command(SSD1306_SEGREMAP | 0x1);
     ssd1306_command(SSD1306_COMSCANDEC);
     ssd1306_command(SSD1306_SETCOMPINS);                    // 0xDA
-    ssd1306_command(0x12);
+    ssd1306_command(0x12); // ???? TODO was 0x02
     ssd1306_command(SSD1306_SETCONTRAST);                   // 0x81
     if (vccstate == SSD1306_EXTERNALVCC) 
       { ssd1306_command(0x9F); }
     else 
-      { ssd1306_command(0xCF); }
+      { ssd1306_command(0x8F); // TODO was 0xCF }
     ssd1306_command(SSD1306_SETPRECHARGE);                  // 0xd9
     if (vccstate == SSD1306_EXTERNALVCC) 
       { ssd1306_command(0x22); }
@@ -262,8 +267,6 @@ void Adafruit_SSD1306::begin(uint8_t vccstate, uint8_t i2caddr) {
       { ssd1306_command(0xF1); }
     ssd1306_command(SSD1306_SETVCOMDETECT);                 // 0xDB
     ssd1306_command(0x40);
-    ssd1306_command(SSD1306_DISPLAYALLON_RESUME);           // 0xA4
-    ssd1306_command(SSD1306_NORMALDISPLAY);                 // 0xA6
   #endif
   
   ssd1306_command(SSD1306_DISPLAYON);//--turn on oled panel
